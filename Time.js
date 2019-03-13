@@ -28,7 +28,6 @@ var svg=d3.select("svg")
           .attr("height",h);
 
 var rect=svg.append("g")
-            .attr("day",day)
             .classed("rects",true)
             .attr("transform","translate(30,-20)")
             .selectAll("rect")
@@ -53,9 +52,11 @@ var xAxis=d3.axisBottom(xScale)
 var yAxis=d3.axisLeft(yScale2)
             .ticks(11);
 svg.append("g")
+   .classed("axis",true)
    .call(xAxis)
    .attr("transform","translate("+(margin.left+5)+","+(h-margin.top)+")");
 svg.append("g")
+   .classed("axis",true)
    .call(yAxis)
    .attr("transform","translate("+(margin.left+5)+","+margin.top+")");
 

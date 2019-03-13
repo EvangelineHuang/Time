@@ -58,47 +58,56 @@ svg.append("g")
 svg.append("g")
    .call(yAxis)
    .attr("transform","translate("+(margin.left+5)+","+margin.top+")");
-
+nextDay(data,day);
+prevDay(data,day);
 
 }
 //////////////////////////////////////////////
+var change=function(data,day){
+
+d3.selectAll("rect")
+  .data(data[day].grades)
+  .transition()
+  .attr("y",function(d){
+      return h-yScale(d.grade);
+  })
+  .attr("height",function(d){
+      return yScale(d.grade);
+  });
+
+nextDay(data,day);
+prevDay(data,day);
+
+}
+//////////////////////////////////////////////
+
+var prevDay=function(data,day){
+  if(day>0 && day<=9){
+  d3.select("#prev")
+    .attr("disabled",null)
+    .on("click",function(){change(data,day-1)});}
+  else{
+  d3.select("#prev")
+    .attr("disabled",true);
+  }
+}
+
+var nextDay=function(data,day){
+  if(day>=0 && day<9){
+    d3.select("#next")
+      .attr("disabled",null)
+      .on("click",function(){change(data,day+1)});}
+  else{
+    d3.select("#next")
+      .attr("disabled",true);
+      }
+}
+
+////////////////////////////////////////////////
 json_data.then(function(d){
-  initial(d,0);
-},
-function(err){
-  console.log(err);
-})
-var prevDay=function(data){
-  var ind=d3.select("g.rects")
-            .attr("day");
-  ind=parseInt(ind,10);
-  if(ind>0 && ind<=9)
-  {
-    initial(data,ind+1);
-  }
-}
-
-var nextDay=function(){
-  var json_data=d3.json("gradeDataTime.json");
-  var ind=d3.select("g.rects")
-            .attr("day");
-      ind=parseInt(ind,10);
-
-  if(ind>=0 && ind<9)
-  {
-    json_data.then(function(d){
-    initial(d,ind-1)},
-    function(err){
-      console.log(err);
-    })
-  }
-}
-/*var prev=d3.select("#prev")
-           .on("click",function()
-           {
-
-           };*/
-
-
-var next=d3.select("#next")
-           .on("click",nextDay);
+             initial(d,0);
+           },
+           function(err){
+             console.log(err);
+           })
+           //////////////////////////////////////////////

@@ -23,7 +23,7 @@
      width:50px;
      height:40px;
    }
-   div{
+   div.day{
      margin-left:525px;
    }
    h1{
@@ -36,16 +36,35 @@
      stroke:#A0B9BF;
      stroke-width:3px;
    }
+   div.input{
+     margin-left:825px;
+     position:relative;
+     bottom:250px;
+   }
+   input{
+     margin-bottom:20px;
+   }
+   .date text{
+     font-size:40px;
+   }
    </style>
   </head>
   <body>
     <h1>Looking Through Time</h1>
     <svg></svg>
     <br />
-    <div>
+    <div class="day">
     <button type="button" id="prev">PREV</button>
-    <button type="button" id="next">NEXT</button>
+    <button type="button" id="next">NEXT</button></br>
     </div>
+    <div class="input">
+    <label>Fred:<input type="text" name="Fred" id="Fred"></label></br>
+    <label>Sally:<input type="text" name="Sally" id="Sally"></lable></br>
+    <lable>Karl:<input type="text" name="Karl" id="Karl"></lable></br>
+    <lable>Nancy:<input type="text" name="Nancy" id="Nancy"></lable></br>
+    <button type="button" id="submit">Submit</button>
+  </div>
+
     <script type="text/javascript" src="Time.js">
     </script>
   </body>

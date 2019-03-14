@@ -2,6 +2,7 @@ var json_data=d3.json("gradeDataTime.json");
 var w=600;
 var h=500;
 var padding=20;
+var maxDay=9;
 var margin={
   top:20,
   bottom:20,
@@ -34,6 +35,8 @@ var rect=svg.append("g")
              .data(data[day].grades)
              .enter()
              .append("rect")
+             .transition()
+             .duration(1000)
              .attr("x",function(d,i){
                return xScale(i);
              })
@@ -65,9 +68,9 @@ svg.append("g")
    .data(data[day].grades)
    .enter()
    .append("rect")
-   .attr("x",500)
+   .attr("x",475)
    .attr("y",function(d,i){
-     return i*35;})
+     return i*35+110;})
    .attr("width",25)
    .attr("height",25)
    .attr("fill",function(d){
@@ -79,17 +82,23 @@ svg.append("g")
       .data(data[day].grades)
       .enter()
       .append("text")
-      .attr("x",550)
+      .attr("x",520)
       .attr("y",function(d,i){
-        return i*35+20;})
+        return i*35+130;})
       .text(function(d){
         return d.name;
       })
+    svg.append("g")
+       .classed("date",true)
+       .append("text")
+       .attr("x",475)
+       .attr("y",30)
+       .text("Day:"+data[day].day)
 
 
 nextDay(data,day);
 prevDay(data,day);
-
+newData(data,day);
 }
 //////////////////////////////////////////////
 var change=function(data,day){
@@ -104,14 +113,17 @@ d3.selectAll("rect")
       return yScale(d.grade);
   });
 
+  d3.select(".date text")
+    .text("Day:"+data[day].day);
 nextDay(data,day);
 prevDay(data,day);
+newData(data,day);
 
 }
 //////////////////////////////////////////////
 
 var prevDay=function(data,day){
-  if(day>0 && day<=9){
+  if(day>0 && day<=maxDay){
   d3.select("#prev")
     .attr("disabled",null)
     .on("click",function(){change(data,day-1)});}
@@ -122,7 +134,7 @@ var prevDay=function(data,day){
 }
 
 var nextDay=function(data,day){
-  if(day>=0 && day<9){
+  if(day>=0 && day<maxDay){
     d3.select("#next")
       .attr("disabled",null)
       .on("click",function(){change(data,day+1)});}
@@ -140,3 +152,21 @@ json_data.then(function(d){
              console.log(err);
            })
 //////////////////////////////////////////////
+var newData=function(data,day)
+{
+  d3.select("#submit")
+    .on("click",function(){
+  maxDay=maxDay+1;
+  var fred=document.getElementById("Fred").value;
+  var sally=document.getElementById("Sally").value;
+  var karl=document.getElementById("Karl").value;
+  var nancy=document.getElementById("Nancy").value;
+  var newdata=[{name:"Fred",grade:fred},{name:"Sally",grade:sally},{name:"Karl",grade:karl},{name:"Nancy",grade:nancy}]
+  json_data.then(function(d){
+               d.push({day:maxDay+1,grades:newdata})
+             },
+             function(err){
+               console.log(err);
+             })
+  nextDay(data,day);})
+}

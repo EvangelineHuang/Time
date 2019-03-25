@@ -10,7 +10,7 @@ var margin={
   right:20
 }
 var xScale=d3.scaleLinear()
-             .domain([0.,4])
+             .domain([0,4])
              .range([0,w-margin.left-margin.right-150])
 var yScale=d3.scaleLinear()
              .domain([0,100])
